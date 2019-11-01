@@ -1,75 +1,31 @@
 package com.BO.defenders.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.BO.defenders.util.MatrixUtils;
+/**
+ * Field with units assignment representation
+ */
+public interface FieldMatrix {
 
-import lombok.Getter;
-import lombok.ToString;
+  int getSectorsNumber();
 
-@ToString
-public class FieldMatrix {
+  int getUnitsNumber();
 
-  @Getter
-  private final int sectorsNumber;
-  @Getter
-  private final int unitsNumber;
-  private boolean[][] matrix;
+  List<Unit> getUnits();
 
-  private List<List<Unit>> cachedSectors;
+  Unit getUnit(int unitIndex);
 
-  public FieldMatrix(int sectorsNumber, int unitsNumber) {
-    this.sectorsNumber = sectorsNumber;
-    this.unitsNumber = unitsNumber;
-    matrix = new boolean[sectorsNumber][unitsNumber];
-    cachedSectors = null;
-  }
+  int getUnitSector(int unitIndex);
 
-  public boolean get(int sectorIndex, int unitIndex) {
-    return matrix[sectorIndex][unitIndex];
-  }
+  boolean isAssigned(int sectorIndex, int unitIndex);
 
-  public void set(int sectorIndex, int unitIndex, boolean assigned) {
-    if (hasCache()) {
-      throw new IllegalArgumentException("This matrix was supposed to have cache");
-    }
-    matrix[sectorIndex][unitIndex] = assigned;
-  }
+  void assign(int sectorIndex, int unitIndex, boolean assign);
 
-  // OPTIONAL - using units cache may quicken the cost calculation (bees will have n+m complexity, not n*m)
-  public void cacheElements(List<Unit> units) {
-    cachedSectors = new ArrayList<>();
-    for (int i = 0; i < sectorsNumber; i++) {
-      cachedSectors.add(MatrixUtils.getSectorUnitsWithoutCache(this, i, units));
-    }
-  }
+  List<Unit> getSectorUnits(int sectorIndex);
 
-  public boolean hasCache() {
-    return cachedSectors != null;
-  }
+  boolean[][] getMatrixView();
 
-  public void disableCache() {
-    cachedSectors = null;
-  }
+  String present();
 
-  public List<Unit> getCachedSector(int sectorNumber) {
-    return cachedSectors.get(sectorNumber);
-  }
-
-  public void setWithCache(int sectorIndex, int unitIndex, boolean assigned, Unit unit) {
-    if (!hasCache()) {
-      throw new IllegalArgumentException("This matrix does not have cache");
-    }
-    matrix[sectorIndex][unitIndex] = assigned;
-    if (assigned) {
-      List<Unit> cachedSector = cachedSectors.get(sectorIndex);
-      if (!cachedSector.contains(unit)) {
-        cachedSector.add(unit);
-      }
-      cachedSectors.get(sectorIndex).add(unit);
-    } else {
-      cachedSectors.get(sectorIndex).remove(unit);
-    }
-  }
+  FieldMatrix clone();
 }

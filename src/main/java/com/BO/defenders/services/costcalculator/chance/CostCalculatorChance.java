@@ -8,7 +8,6 @@ import com.BO.defenders.model.Problem;
 import com.BO.defenders.model.Solution;
 import com.BO.defenders.model.Unit;
 import com.BO.defenders.services.costcalculator.CostCalculator;
-import com.BO.defenders.util.MatrixUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,14 +19,12 @@ public abstract class CostCalculatorChance implements CostCalculator {
     log.debug("Calculating solution cost...");
     FieldMatrix attackersMatrix = problem.getAttackersMatrix();
     FieldMatrix defendersMatrix = solution.getDefendersMatrix();
-    List<Unit> attackers = problem.getAttackers();
-    List<Unit> defenders = problem.getDefenders();
 
     List<Double> surviveChances = new ArrayList<>();
 
     for (int sectorIndex = 0; sectorIndex < attackersMatrix.getSectorsNumber(); sectorIndex++) {
-      List<Unit> sectorAttackers = MatrixUtils.getSectorUnits(attackersMatrix, sectorIndex, attackers);
-      List<Unit> sectorDefenders = MatrixUtils.getSectorUnits(defendersMatrix, sectorIndex, defenders);
+      List<Unit> sectorAttackers = attackersMatrix.getSectorUnits(sectorIndex);
+      List<Unit> sectorDefenders = defendersMatrix.getSectorUnits(sectorIndex);
       addSectorSurviveChances(sectorAttackers, sectorDefenders, surviveChances);
     }
 
