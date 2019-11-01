@@ -47,7 +47,7 @@ public class CommandParser {
   private NewCommand buildNewCommand(String[] args) throws CommandParseException {
     NewCommand result = new NewCommand();
     if (args.length > 1) {
-      result.setCostType(resolveEnumOrThrowParseException(CostCalculationType::valueOf, args[1]));
+      result.setCostType(resolveEnumOrThrowParseException(CostCalculationType::ofCommandCode, args[1]));
     }
     if (args.length > 2) {
       result.setSectorsNumber(Integer.valueOf(args[2]));

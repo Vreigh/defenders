@@ -40,6 +40,14 @@ public class MatrixUtils {
   }
 
   public static List<Unit> getSectorUnits(FieldMatrix matrix, int sector, List<Unit> units) {
+    if (matrix.hasCache()) {
+      return matrix.getCachedSector(sector);
+    } else {
+      return getSectorUnitsWithoutCache(matrix, sector, units);
+    }
+  }
+
+  public static List<Unit> getSectorUnitsWithoutCache(FieldMatrix matrix, int sector, List<Unit> units) {
     List<Unit> result = new ArrayList<>(matrix.getUnitsNumber());
     for (int unitIndex = 0; unitIndex < matrix.getUnitsNumber(); unitIndex++) {
       if (matrix.get(sector, unitIndex)) {
@@ -48,4 +56,5 @@ public class MatrixUtils {
     }
     return result;
   }
+
 }
