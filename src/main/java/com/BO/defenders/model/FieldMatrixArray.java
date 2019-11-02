@@ -51,6 +51,16 @@ public class FieldMatrixArray implements FieldMatrix {
   }
 
   @Override
+  public void assign(int sectorIndex, int unitIndex) {
+    matrix[sectorIndex][unitIndex] = true;
+  }
+
+  @Override
+  public void unassign(int sectorIndex, int unitIndex) {
+    matrix[sectorIndex][unitIndex] = false;
+  }
+
+  @Override
   public List<Unit> getSectorUnits(int sectorIndex) {
     List<Unit> result = new ArrayList<>(unitsNumber);
     for (int unitIndex = 0; unitIndex < unitsNumber; unitIndex++) {

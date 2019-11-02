@@ -47,22 +47,22 @@ public class CommandParser {
   private NewCommand buildNewCommand(String[] args) throws CommandParseException {
     NewCommand result = new NewCommand();
     if (args.length > 1) {
-      result.setCostType(resolveEnumOrThrowParseException(CostCalculationType::ofCommandCode, args[1]));
+      result.setSectorsNumber(Integer.valueOf(args[1]));
     }
     if (args.length > 2) {
-      result.setSectorsNumber(Integer.valueOf(args[2]));
+      result.setAttackersNumber(Integer.valueOf(args[2]));
     }
     if (args.length > 3) {
-      result.setStatsNumber(Integer.valueOf(args[3]));
+      result.setDefendersNumber(Integer.valueOf(args[3]));
     }
     if (args.length > 4) {
-      result.setStatsSum(Integer.valueOf(args[4]));
+      result.setCostType(resolveEnumOrThrowParseException(CostCalculationType::ofCommandCode, args[4]));
     }
     if (args.length > 5) {
-      result.setAttackersNumber(Integer.valueOf(args[5]));
+      result.setStatsNumber(Integer.valueOf(args[5]));
     }
     if (args.length > 6) {
-      result.setDefendersNumber(Integer.valueOf(args[6]));
+      result.setStatsSum(Integer.valueOf(args[6]));
     }
     //TODO (opcjonalne): dodać jakieś proste walidacje żeby np nie dopuszczać ujemnych liczb
     return result;

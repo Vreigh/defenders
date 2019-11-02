@@ -21,6 +21,10 @@ public interface FieldMatrix {
 
   void assign(int sectorIndex, int unitIndex, boolean assign);
 
+  void assign(int sectorIndex, int unitIndex);
+
+  void unassign(int sectorIndex, int unitIndex);
+
   List<Unit> getSectorUnits(int sectorIndex);
 
   boolean[][] getMatrixView();

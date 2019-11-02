@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.BO.defenders.model.ProblemConfig;
 import com.BO.defenders.model.Unit;
 import com.BO.defenders.services.costcalculator.CostCalculationType;
 import com.BO.defenders.services.costcalculator.ForCostCalculationType;
@@ -19,9 +20,9 @@ import lombok.extern.slf4j.Slf4j;
 public class CostCalculatorChanceForAll extends CostCalculatorChance {
 
   @Override
-  protected void addSectorSurviveChances(List<Unit> sectorAttackers, List<Unit> sectorDefenders, List<Double> surviveChances) {
-    List<Integer> totalAttackerStats = UnitsUtils.sumUnits(sectorAttackers);
-    List<Integer> totalDefendersStats = UnitsUtils.sumUnits(sectorDefenders);
+  protected void addSectorSurviveChances(List<Unit> sectorAttackers, List<Unit> sectorDefenders, List<Double> surviveChances, ProblemConfig config) {
+    List<Integer> totalAttackerStats = UnitsUtils.sumUnits(sectorAttackers, config);
+    List<Integer> totalDefendersStats = UnitsUtils.sumUnits(sectorDefenders, config);
     for(int i=0; i<totalAttackerStats.size(); i++) {
       surviveChances.add(calculateSurviveChance(totalAttackerStats.get(i), totalDefendersStats.get(i)));
     }

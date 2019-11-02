@@ -3,6 +3,7 @@ package com.BO.defenders.util;
 import java.util.Arrays;
 import java.util.List;
 
+import com.BO.defenders.model.ProblemConfig;
 import com.BO.defenders.model.Unit;
 
 import lombok.experimental.UtilityClass;
@@ -14,8 +15,8 @@ public class UnitsUtils {
    * @param units nonempty list of nonnull units containing the same number of stats
    * @return totalled stats
    */
-  public static List<Integer> sumUnits(List<Unit> units) {
-    int statsNumber = units.get(0).getStatsNumber();
+  public static List<Integer> sumUnits(List<Unit> units, ProblemConfig config) {
+    int statsNumber = config.getStatsNumber();
     Integer totalStats[] = new Integer[statsNumber];
     Arrays.fill(totalStats, 0);
     units.forEach(unit -> {

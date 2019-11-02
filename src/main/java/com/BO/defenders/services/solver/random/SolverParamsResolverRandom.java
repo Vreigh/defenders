@@ -11,14 +11,19 @@ import com.BO.defenders.services.solver.SolverParamsResolver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 @ForSolveType(solveType = SolveType.RANDOM)
-public class SolverParamsResolverRandom implements SolverParamsResolver<Void> {
+public class SolverParamsResolverRandom implements SolverParamsResolver<Integer> {
 
   @Override
-  public Void resolveParams(List<String> rawParams) {
-    return null;
+  public Integer resolveParams(List<String> rawParams) {
+    if (isNotEmpty(rawParams)) {
+      return Integer.valueOf(rawParams.get(0));
+    }
+    return 1;
   }
 }

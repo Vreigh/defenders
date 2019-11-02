@@ -27,25 +27,25 @@ public class SolverParamsResolverBees implements SolverParamsResolver<BeesParams
     try {
       if (isNotEmpty(rawParams)) {
         if (rawParams.size() > 0) {
-          beesParams.setNeighbourhoodType(HoodType.ofCommandCode(rawParams.get(0)));
+          beesParams.setIterations(Integer.valueOf(rawParams.get(0)));
         }
         if (rawParams.size() > 1) {
-          beesParams.setPopulation(Integer.valueOf(rawParams.get(1)));
+          beesParams.setNeighbourhoodType(HoodType.ofCommandCode(rawParams.get(1).toUpperCase()));
         }
         if (rawParams.size() > 2) {
-          beesParams.setSelected(Integer.valueOf(rawParams.get(2)));
+          beesParams.setPopulation(Integer.valueOf(rawParams.get(2)));
         }
         if (rawParams.size() > 3) {
-          beesParams.setElite(Integer.valueOf(rawParams.get(3)));
+          beesParams.setSelected(Integer.valueOf(rawParams.get(3)));
         }
         if (rawParams.size() > 4) {
-          beesParams.setRecruitedAroundNormal(Integer.valueOf(rawParams.get(4)));
+          beesParams.setElite(Integer.valueOf(rawParams.get(4)));
         }
         if (rawParams.size() > 5) {
-          beesParams.setRecruitedAroundElite(Integer.valueOf(rawParams.get(5)));
+          beesParams.setRecruitedAroundNormal(Integer.valueOf(rawParams.get(5)));
         }
         if (rawParams.size() > 6) {
-          beesParams.setIterations(Integer.valueOf(rawParams.get(6)));
+          beesParams.setRecruitedAroundElite(Integer.valueOf(rawParams.get(6)));
         }
       }
     } catch (IllegalArgumentException e) {
