@@ -30,7 +30,7 @@ public class ProblemGenerator {
     List<Unit> defenders = generateUnits(config.getDefendersNumber(), config.getStatsNumber(), config.getStatsSum());
 
     FieldMatrix attackersMatrix = matrixFactory.newMatrix(config.getSectorsNumber(), attackers);
-    MatrixUtils.randomFillUnitMatrix(attackersMatrix, random);
+    MatrixUtils.randomButEnsureOneInAllSectorsFillUnitMatrix(attackersMatrix, random);
 
     return new Problem(config, attackersMatrix, defenders);
   }

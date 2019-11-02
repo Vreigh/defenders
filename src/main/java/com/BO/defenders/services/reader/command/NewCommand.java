@@ -13,12 +13,13 @@ import lombok.Setter;
 @NoArgsConstructor
 public class NewCommand extends Command {
 
+  private int sectorsNumber = 8;
+  private int attackersNumber = 40;
+  private int defendersNumber = 35;
   private CostCalculationType costType = CostCalculationType.CHANCE_FOR_ALL;
-  private int sectorsNumber = 12;
   private int statsNumber = 3;
   private int statsSum = 7;
-  private int attackersNumber = 50;
-  private int defendersNumber = 45;
+
 
   @Override
   public CommandType getType() {

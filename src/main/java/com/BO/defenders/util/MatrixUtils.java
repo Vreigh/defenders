@@ -16,7 +16,7 @@ public class MatrixUtils {
   public static void randomFillUnitMatrix(FieldMatrix matrix, Random random) {
     for (int i = 0; i < matrix.getUnitsNumber(); i++) {
       int randomSectorIndex = random.nextInt(matrix.getSectorsNumber());
-      matrix.assign(randomSectorIndex, i, true);
+      matrix.assign(randomSectorIndex, i);
     }
   }
 
@@ -24,16 +24,18 @@ public class MatrixUtils {
     List<Integer> availableUnitIndexes = IntStream.range(0, matrix.getUnitsNumber())
       .boxed().collect(toList());
 
-    int sectorIndex = 0;
-    while (!availableUnitIndexes.isEmpty()) {
+    int sectorIndex = -1;
+    while (!availableUnitIndexes.isEmpty() && ++sectorIndex != matrix.getSectorsNumber()) {
       Integer unitIndex = availableUnitIndexes.get(random.nextInt(availableUnitIndexes.size())); // get random unit index
-      matrix.assign(sectorIndex, unitIndex, true); // assign the unit
+      matrix.assign(sectorIndex, unitIndex); // assign the unit
       availableUnitIndexes.remove(unitIndex); // remove from available (removing the Integer object, not by index in availableUnitIndexes)
+    }
 
-      sectorIndex++;
-      if (sectorIndex == matrix.getSectorsNumber()) {
-        sectorIndex = 0;
-      }
+    while (!availableUnitIndexes.isEmpty()) {
+      Integer unitIndex = availableUnitIndexes.get(random.nextInt(availableUnitIndexes.size()));
+      int randomSectorIndex = random.nextInt(matrix.getSectorsNumber());
+      matrix.assign(randomSectorIndex, unitIndex);
+      availableUnitIndexes.remove(unitIndex);
     }
   }
 
