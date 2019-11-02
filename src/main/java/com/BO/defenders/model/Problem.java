@@ -14,13 +14,12 @@ import lombok.ToString;
 public class Problem {
 
   private ProblemConfig problemConfig;
-  private List<Unit> attackers;
-  private List<Unit> defenders;
   private FieldMatrix attackersMatrix;
+  private List<Unit> defenders;
 
   public void present() {
     //TODO: zaprezentować problem lepiej
     System.out.println("Presenting the problem");
-    System.out.println(toString());
+    System.out.println(attackersMatrix.present());
   }
 }

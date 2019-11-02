@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import static java.util.Objects.isNull;
+import static java.util.Optional.ofNullable;
 
 @Slf4j
 @Service
@@ -33,6 +34,11 @@ public class CostCalculatorManager {
       throw new OperationTechnicalException("No implementation for this cost type " + problem.getProblemConfig().getCostType());
     }
     calculatorForProblemCostType.calculateCost(problem, solution);
+  }
+
+  public CostCalculator getCalculator(CostCalculationType costType) {
+    return ofNullable(calculatorMap.get(costType))
+      .orElseThrow(() -> new OperationTechnicalException("No implementation for this cost type " + costType));
   }
 
   @PostConstruct

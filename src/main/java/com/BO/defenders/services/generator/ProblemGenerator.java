@@ -10,6 +10,7 @@ import com.BO.defenders.model.FieldMatrix;
 import com.BO.defenders.model.Problem;
 import com.BO.defenders.model.ProblemConfig;
 import com.BO.defenders.model.Unit;
+import com.BO.defenders.model.factory.FieldMatrixFactory;
 import com.BO.defenders.util.MatrixUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -21,14 +22,17 @@ import lombok.extern.slf4j.Slf4j;
 public class ProblemGenerator {
 
   private final Random random = new Random();
+  private final FieldMatrixFactory matrixFactory;
 
   public Problem generateProblem(ProblemConfig config) {
     log.info("Generating a new problem for config {}", config);
-    FieldMatrix attackersMatrix = new FieldMatrix(config.getSectorsNumber(), config.getAttackersNumber());
-    MatrixUtils.randomFillUnitMatrix(attackersMatrix, random);
     List<Unit> attackers = generateUnits(config.getAttackersNumber(), config.getStatsNumber(), config.getStatsSum());
     List<Unit> defenders = generateUnits(config.getDefendersNumber(), config.getStatsNumber(), config.getStatsSum());
-    return new Problem(config, attackers, defenders, attackersMatrix);
+
+    FieldMatrix attackersMatrix = matrixFactory.newMatrix(config.getSectorsNumber(), attackers);
+    MatrixUtils.randomFillUnitMatrix(attackersMatrix, random);
+
+    return new Problem(config, attackersMatrix, defenders);
   }
 
   private List<Unit> generateUnits(int number, int statsNumber, int statsSum) {
