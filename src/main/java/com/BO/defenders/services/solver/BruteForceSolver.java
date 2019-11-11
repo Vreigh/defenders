@@ -24,12 +24,14 @@ public class BruteForceSolver implements ProblemSolver<Integer> {
     public Solution solve(Problem problem, Integer params) {
         Solution solution = new Solution(new FieldMatrixArray(problem.getProblemConfig().getSectorsNumber(), problem.getDefenders()));
         solve(solution ,problem, 0);
-        return solution;
+        return bestSolution;
     }
 
     private void solve(Solution solution ,Problem problem, int defenderIndex){
-        if(defenderIndex == problem.getDefenders().size())
+        if(defenderIndex == problem.getDefenders().size()) {
             calculateChance(solution, problem);
+            return;
+        }
         for(int i = 0; i<problem.getProblemConfig().getSectorsNumber(); i++){
             solution.getDefendersMatrix().getMatrixView()[i][defenderIndex] = true;
             solve(solution, problem, defenderIndex + 1);
