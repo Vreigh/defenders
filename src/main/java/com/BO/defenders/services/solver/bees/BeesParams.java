@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class BeesParams {
 
   private int iterations = 10;
-  private HoodType neighbourhoodType = HoodType.RANDOM_TWO_UNITS_BEST_CHOICE;
+  private HoodType neighbourhoodType = HoodType.TODO2;
   private int population = 10;
   private int selected = 5;
   private int elite = 2;
