@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum HoodType {
-  RANDOM_TWO_UNITS_BEST_CHOICE("R2B"), TODO1("TODO1"), TODO2("TODO2");
+  RANDOM_TWO_UNITS_BEST_CHOICE("R2B"), TODO1("TODO1"), BEST_TO_WORST("BTW");
 
   private final String commandCode;
 

@@ -1,13 +1,11 @@
 package com.BO.defenders.services.solver.bees.neighbourhood.todo2;
 
-import com.BO.defenders.model.FieldMatrix;
-import com.BO.defenders.model.Unit;
+import com.BO.defenders.model.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
 
-import com.BO.defenders.model.Problem;
-import com.BO.defenders.model.Solution;
 import com.BO.defenders.services.solver.bees.neighbourhood.ForHoodType;
 import com.BO.defenders.services.solver.bees.neighbourhood.HoodType;
 import com.BO.defenders.services.solver.bees.neighbourhood.NeighbourhoodResolver;
@@ -21,8 +19,8 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@ForHoodType(hoodType = HoodType.TODO2)
-public class NeighbourhoodResolverTODO2 implements NeighbourhoodResolver {
+@ForHoodType(hoodType = HoodType.BEST_TO_WORST)
+public class NeighbourhoodResolverBTW implements NeighbourhoodResolver {
 
   /**
    * Wyszukuje sektor gdzie atakujacy zwyciezaja najbardziej tj suma roznicy wszystkich attr jest
@@ -36,7 +34,7 @@ public class NeighbourhoodResolverTODO2 implements NeighbourhoodResolver {
     FieldMatrix defenders = prevSolution.getDefendersMatrix();
     List<Unit> attackersUnits = problem.getAttackersMatrix().getUnits();
     List<Unit> defenderUnits = problem.getDefenders();
-    Result result = calculateBiggestDifference(attackers, defenders, attackersUnits, defenderUnits);
+    Result result = calculateBiggestDifference(attackers, defenders, attackersUnits, defenderUnits, problem.getProblemConfig());
     if (result.sector == -1)
       return prevSolution;
     swapDefenderUnit(result, defenders, defenderUnits);
@@ -96,7 +94,7 @@ public class NeighbourhoodResolverTODO2 implements NeighbourhoodResolver {
     defenders.set(j, u);
   }
 
-  private Result calculateBiggestDifference(FieldMatrix attackers, FieldMatrix defenders, List<Unit> attackersUnits, List<Unit> defenderUnits) {
+  private Result calculateBiggestDifference(FieldMatrix attackers, FieldMatrix defenders, List<Unit> attackersUnits, List<Unit> defenderUnits, ProblemConfig problemConfig) {
     int biggestDifference = Integer.MIN_VALUE;
     Unit result = null;
     int sector = -1;
@@ -111,8 +109,8 @@ public class NeighbourhoodResolverTODO2 implements NeighbourhoodResolver {
         if (defenders.getMatrix()[i][j])
           defendersList.add(defenderUnits.get(j));
       }
-      Unit attackerSum = calc(attackersList);
-      Unit defenderSum = calc(defendersList);
+      Unit attackerSum = calc(attackersList, problemConfig);
+      Unit defenderSum = calc(defendersList, problemConfig);
       List<Integer> resultList = new LinkedList<>();
       for (int x = 0; x<defenders.getUnits().get(0).getStatsNumber(); x++){
         int sum = attackerSum.getStat(x) - defenderSum.getStat(x);
@@ -128,9 +126,9 @@ public class NeighbourhoodResolverTODO2 implements NeighbourhoodResolver {
     return new Result(result, sector);
   }
 
-  private Unit calc(List<Unit> unitsList) {
+  private Unit calc(List<Unit> unitsList, ProblemConfig problemConfig) {
     List<Integer> stats = new LinkedList<>();
-    for (int i = 0; i< unitsList.get(0).getStatsNumber(); i++)
+    for (int i = 0; i< problemConfig.getStatsNumber(); i++)
       stats.add(0);
     for (Unit unit : unitsList){
       for (int i = 0; i<unit.getStatsNumber(); i++) {
