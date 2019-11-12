@@ -37,6 +37,8 @@ public class CommandParser {
           return buildSolveCommand(args);
         case END:
           return new EndCommand();
+        case HELP:
+          return new HelpCommand();
       }
     } catch (RuntimeException e) {
       throw new CommandParseException("Unexpected error during command parsing, origin: " + e.getMessage());

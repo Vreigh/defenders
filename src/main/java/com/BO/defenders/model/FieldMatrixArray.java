@@ -89,8 +89,7 @@ public class FieldMatrixArray implements FieldMatrix {
     for(boolean[] row: this.matrix)
       str.append(Arrays.toString(row)).append("\n");
 
-    return "> " + this.toString() +
-            "\n> Sectors number: " + sectorsNumber +
+    return  "\n> Sectors number: " + sectorsNumber +
             "\n> Units number: " + unitsNumber +
             "\n> Units: " + units.toString() +
             "\n> Matrix: \nget" + str

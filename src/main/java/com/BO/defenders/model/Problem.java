@@ -18,7 +18,6 @@ public class Problem {
   private List<Unit> defenders;
 
   public void present() {
-    //TODO: zaprezentować problem lepiej
     System.out.println("Presenting the problem");
     System.out.println(attackersMatrix.present());
   }

@@ -29,6 +29,9 @@ public class DefendersAppRunner {
   public void start(ProblemRepository problemRepository) {
     this.problemRepository = problemRepository;
     initExampleProblem();
+    System.out.println("\nWelcome to the defenders application");
+    System.out.println("Available commands: NEW, GET, SOLVE, END, HELP");
+
 
     Command command;
     do {
@@ -45,12 +48,16 @@ public class DefendersAppRunner {
           case SOLVE:
             handleSolve((SolveCommand) command);
             break;
+          case HELP:
+            handleHelp((HelpCommand) command);
         }
       } catch(OperationTechnicalException e) {
         log.error("Technical exception during operation: {}, message: {}", command.getType(), e.getMessage());
       }
     } while (command.getType() != CommandType.END);
   }
+
+
 
   private void initExampleProblem() {
     handleNew(new NewCommand());
@@ -77,5 +84,27 @@ public class DefendersAppRunner {
   private void handleSolve(SolveCommand command) {
     Solution solution = problemSolverManager.solve(problemRepository.get(), command);
     solution.present();
+  }
+
+  private void handleHelp(HelpCommand command)
+  {
+    System.out.println("Available commands: NEW, GET, SOLVE, END, HELP");
+
+    System.out.println("NEW   - creates new problem");
+    System.out.println("> Usage: NEW [sectors] [attackers] [defenders] [cost type] [stats number] [stats sum]");
+    System.out.println("> parameters are optional, if a parameter is not given default is set");
+
+    System.out.println("GET   - prints problem description");
+    System.out.println("SOLVE - solves previously declared problem");
+    System.out.println("> Usage: SOLVE [solver type] [iterations] [neighbourhood type]");
+    System.out.println("> Solver types: RANDOM - as name suggests,\n" +
+                       "                BEES   - bees algorithm,\n" +
+                       "                FORCE  - best solution calculated by brute force");
+    System.out.println("> Neighbourhood types: R2B - Random 2 units best choice\n" +
+                       "                       BTW - Best to worst");
+
+    System.out.println("END   - closes program");
+    System.out.println("HELP  - prints this help message");
+
   }
 }
