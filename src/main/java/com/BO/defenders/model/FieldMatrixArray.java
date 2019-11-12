@@ -1,12 +1,15 @@
 package com.BO.defenders.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Data
 public class FieldMatrixArray implements FieldMatrix {
 
   @Getter
@@ -72,14 +75,26 @@ public class FieldMatrixArray implements FieldMatrix {
   }
 
   @Override
-  public boolean[][] getMatrixView() {
+  public boolean[][] getMatrix() {
     return matrix;
   }
 
+
+
   @Override
-  public String present() {
-    //TODO: present
-    return "";
+  public String present()
+  {
+//    return this.toString();
+    StringBuilder str = new StringBuilder();
+    for(boolean[] row: this.matrix)
+      str.append(Arrays.toString(row)).append("\n");
+
+    return "> " + this.toString() +
+            "\n> Sectors number: " + sectorsNumber +
+            "\n> Units number: " + unitsNumber +
+            "\n> Units: " + units.toString() +
+            "\n> Matrix: \nget" + str
+            ;
   }
 
   @Override

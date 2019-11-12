@@ -3,13 +3,10 @@ package com.BO.defenders.services.solver;
 import com.BO.defenders.model.FieldMatrixArray;
 import com.BO.defenders.model.Problem;
 import com.BO.defenders.model.Solution;
-import com.BO.defenders.model.Unit;
 import com.BO.defenders.services.costcalculator.chance.CostCalculatorChanceForAll;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Slf4j
 @Service
@@ -33,9 +30,9 @@ public class BruteForceSolver implements ProblemSolver<Integer> {
             return;
         }
         for(int i = 0; i<problem.getProblemConfig().getSectorsNumber(); i++){
-            solution.getDefendersMatrix().getMatrixView()[i][defenderIndex] = true;
+            solution.getDefendersMatrix().getMatrix()[i][defenderIndex] = true;
             solve(solution, problem, defenderIndex + 1);
-            solution.getDefendersMatrix().getMatrixView()[i][defenderIndex] = true;
+            solution.getDefendersMatrix().getMatrix()[i][defenderIndex] = true;
         }
     }
 

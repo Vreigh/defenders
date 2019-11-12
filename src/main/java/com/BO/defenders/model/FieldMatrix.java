@@ -27,7 +27,7 @@ public interface FieldMatrix {
 
   List<Unit> getSectorUnits(int sectorIndex);
 
-  boolean[][] getMatrixView();
+  boolean[][] getMatrix();
 
   String present();
 

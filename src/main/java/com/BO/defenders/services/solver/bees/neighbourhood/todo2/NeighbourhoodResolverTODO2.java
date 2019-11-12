@@ -51,7 +51,7 @@ public class NeighbourhoodResolverTODO2 implements NeighbourhoodResolver {
     int worstIndex = -1;
     for (int i = 0; i<defenderUnits.size(); i++) {
       Unit unit = defenderUnits.get(i);
-      if(defenders.getMatrixView()[result.getSector()][i]) {
+      if(defenders.getMatrix()[result.getSector()][i]) {
         if (calculateWorst(unit, result.getDifference()) > worstValue) {
           worstValue = calculateWorst(unit, result.getDifference());
           worstIndex = i;
@@ -60,13 +60,13 @@ public class NeighbourhoodResolverTODO2 implements NeighbourhoodResolver {
         if (calculateBest(unit, result.getDifference()) < bestValue) {
           bestValue = calculateBest(unit, result.getDifference());
           bestIndex = i;
-          bestSector = findSector(defenders.getMatrixView(), i);
+          bestSector = findSector(defenders.getMatrix(), i);
         }
       }
     }
 //    swapDefenders(bestIndex, worstIndex, defenderUnits);
-    defenders.getMatrixView()[bestSector][bestIndex] = false;
-    defenders.getMatrixView()[result.getSector()][bestIndex] = true;
+    defenders.getMatrix()[bestSector][bestIndex] = false;
+    defenders.getMatrix()[result.getSector()][bestIndex] = true;
   }
 
   private int findSector(boolean[][] matrixView, int i) {
@@ -104,11 +104,11 @@ public class NeighbourhoodResolverTODO2 implements NeighbourhoodResolver {
       List<Unit> attackersList = new LinkedList<>();
       List<Unit> defendersList = new LinkedList<>();
       for (int j = 0; j < attackers.getUnitsNumber(); j++) {
-        if (attackers.getMatrixView()[i][j])
+        if (attackers.getMatrix()[i][j])
           attackersList.add(attackersUnits.get(j));
       }
       for (int j = 0; j < defenders.getUnitsNumber(); j++) {
-        if (defenders.getMatrixView()[i][j])
+        if (defenders.getMatrix()[i][j])
           defendersList.add(defenderUnits.get(j));
       }
       Unit attackerSum = calc(attackersList);
