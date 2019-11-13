@@ -92,7 +92,7 @@ public class FieldMatrixArray implements FieldMatrix {
     return  "\n> Sectors number: " + sectorsNumber +
             "\n> Units number: " + unitsNumber +
             "\n> Units: " + units.toString() +
-            "\n> Matrix: \nget" + str
+            "\n> Matrix: \n" + str
             ;
   }
 
