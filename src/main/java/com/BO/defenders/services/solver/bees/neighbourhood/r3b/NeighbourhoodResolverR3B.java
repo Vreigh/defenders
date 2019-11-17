@@ -26,11 +26,11 @@ import static java.util.Objects.nonNull;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@ForHoodType(hoodType = HoodType.RANDOM_TWO_UNITS_BEST_CHOICE)
+@ForHoodType(hoodType = HoodType.RANDOM_THREE_UNITS_BEST_CHOICE)
 public class NeighbourhoodResolverR3B implements NeighbourhoodResolver
 {
 
-  private static final int RETRIES_IF_SAME_SECTOR_UNITS_SELECTED = 15;
+  private static final int RETRIES_IF_SAME_SECTOR_UNITS_SELECTED = 25;
 
   private final Random random = new Random();
   private final CostCalculatorManager costCalculatorManager;
@@ -41,9 +41,9 @@ public class NeighbourhoodResolverR3B implements NeighbourhoodResolver
     log.debug("Searching neighbouring solution for r3b");
     ProblemConfig config = problem.getProblemConfig();
     FieldMatrix defendersMatrix = prevSolution.getDefendersMatrix();
-    RandomUnit one = getRandomDefender(defendersMatrix, problem.getAttackersMatrix(), null);
-    RandomUnit two = getRandomDefender(defendersMatrix, problem.getAttackersMatrix(), new RandomUnit[]{one, null} );
-    RandomUnit three = getRandomDefender(defendersMatrix, problem.getAttackersMatrix(), new RandomUnit[]{one, two} );
+    RandomUnit one = getRandomDefender(defendersMatrix, problem.getAttackersMatrix(), null, null);
+    RandomUnit two = getRandomDefender(defendersMatrix, problem.getAttackersMatrix(), one, null );
+    RandomUnit three = getRandomDefender(defendersMatrix, problem.getAttackersMatrix(), one, two );
 
     CostCalculator costCalculator = costCalculatorManager.getCalculator(problem.getProblemConfig().getCostType());
     boolean calculateLocalCostAvailable = costCalculator.calculateLocalCostAvailable();
@@ -52,8 +52,25 @@ public class NeighbourhoodResolverR3B implements NeighbourhoodResolver
             calculateLocalCostAvailable ? calcCostOfPush(costCalculator, one, two, config) : random.nextDouble()));
     possibleOperations.add(new AlterOperation(matrix -> alterMatrixByPush(matrix, two, one),
             calculateLocalCostAvailable ? calcCostOfPush(costCalculator, two, one, config) : random.nextDouble()));
+
+    possibleOperations.add(new AlterOperation(matrix -> alterMatrixByPush(matrix, two, three),
+            calculateLocalCostAvailable ? calcCostOfPush(costCalculator, two, three, config) : random.nextDouble()));
+    possibleOperations.add(new AlterOperation(matrix -> alterMatrixByPush(matrix, three, two),
+            calculateLocalCostAvailable ? calcCostOfPush(costCalculator, three, two, config) : random.nextDouble()));
+
+    possibleOperations.add(new AlterOperation(matrix -> alterMatrixByPush(matrix, one, three),
+            calculateLocalCostAvailable ? calcCostOfPush(costCalculator, one, three, config) : random.nextDouble()));
+    possibleOperations.add(new AlterOperation(matrix -> alterMatrixByPush(matrix, three, one),
+            calculateLocalCostAvailable ? calcCostOfPush(costCalculator, three, one, config) : random.nextDouble()));
+
+
     possibleOperations.add(new AlterOperation(matrix -> alterMatrixBySwitch(matrix, one, two),
             calculateLocalCostAvailable ? calcCostOfSwitch(costCalculator, one, two, config) : random.nextDouble()));
+    possibleOperations.add(new AlterOperation(matrix -> alterMatrixBySwitch(matrix, two, three),
+            calculateLocalCostAvailable ? calcCostOfSwitch(costCalculator, two, three, config) : random.nextDouble()));
+    possibleOperations.add(new AlterOperation(matrix -> alterMatrixBySwitch(matrix, one, three),
+            calculateLocalCostAvailable ? calcCostOfSwitch(costCalculator, one, three, config) : random.nextDouble()));
+
 
     possibleOperations.stream()
             .min(Comparator.comparing(AlterOperation::getCost)).get().getOperation()
@@ -62,17 +79,27 @@ public class NeighbourhoodResolverR3B implements NeighbourhoodResolver
     return prevSolution;
   }
 
-  private RandomUnit getRandomDefender(FieldMatrix defendersMatrix, FieldMatrix attackersMatrix, @Nullable RandomUnit[] otherThan) {
+  private RandomUnit getRandomDefender(FieldMatrix defendersMatrix, FieldMatrix attackersMatrix, @Nullable RandomUnit otherThan1, @Nullable RandomUnit otherThan2) {
     int defIndex = random.nextInt(defendersMatrix.getUnitsNumber());
     int defSectorIndex = defendersMatrix.getUnitSector(defIndex);
 
-    // TODO Uncomment and fix this
-    /*if (nonNull(otherThan)) {
-      for (int i = 0; i < RETRIES_IF_SAME_SECTOR_UNITS_SELECTED && defSectorIndex == otherThan.getUnitSector(); i++) {
+    if (nonNull(otherThan1) && nonNull(otherThan2)) {
+      for (int i = 0; i < RETRIES_IF_SAME_SECTOR_UNITS_SELECTED &&
+              ( defSectorIndex == otherThan1.getUnitSector() || defSectorIndex == otherThan2.getUnitSector());
+           i++) {
         defIndex = random.nextInt(defendersMatrix.getUnitsNumber());
         defSectorIndex = defendersMatrix.getUnitSector(defIndex);
       }
-    }*/
+    }
+    else
+      if (nonNull(otherThan1)) {
+        for (int i = 0; i < RETRIES_IF_SAME_SECTOR_UNITS_SELECTED &&
+                defSectorIndex == otherThan1.getUnitSector();
+             i++) {
+          defIndex = random.nextInt(defendersMatrix.getUnitsNumber());
+          defSectorIndex = defendersMatrix.getUnitSector(defIndex);
+        }
+      }
 
     Unit defender = defendersMatrix.getUnit(defIndex);
     List<Unit> defSectorDefenders = defendersMatrix.getSectorUnits(defSectorIndex);
