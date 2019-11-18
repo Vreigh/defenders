@@ -23,10 +23,6 @@ public class Solution implements Cloneable{
 
   @Override
   public Solution clone() {
-      FieldMatrix matrix = new FieldMatrixArray(defendersMatrix.getSectorsNumber(), defendersMatrix.getUnits());
-      for(int i = 0; i<defendersMatrix.getMatrix().length; i++)
-        for(int j = 0; j<defendersMatrix.getMatrix()[i].length; j++)
-          matrix.getMatrix()[i][j] = defendersMatrix.getMatrix()[i][j];
-      return new Solution(matrix);
+      return new Solution(defendersMatrix.clone());
   }
 }

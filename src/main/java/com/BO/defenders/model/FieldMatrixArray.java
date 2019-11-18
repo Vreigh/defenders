@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@Data
 public class FieldMatrixArray implements FieldMatrix {
 
   @Getter
@@ -79,27 +77,28 @@ public class FieldMatrixArray implements FieldMatrix {
     return matrix;
   }
 
-
-
   @Override
-  public String present()
-  {
-//    return this.toString();
+  public String present() {
     StringBuilder str = new StringBuilder();
-    for(boolean[] row: this.matrix)
+    for (boolean[] row : this.matrix) {
       str.append(Arrays.toString(row)).append("\n");
+    }
 
-    return  "\n> Sectors number: " + sectorsNumber +
-            "\n> Units number: " + unitsNumber +
-            "\n> Units: " + units.toString() +
-            "\n> Matrix: \n" + str
-            ;
+    return "\n> Sectors number: " + sectorsNumber +
+           "\n> Units number: " + unitsNumber +
+           "\n> Units: " + units.toString() +
+           "\n> Matrix: \n" + str
+      ;
   }
 
   @Override
   public FieldMatrix clone() {
-    FieldMatrixArray clone = new FieldMatrixArray(sectorsNumber, units.size(), units);
-    clone.matrix = matrix.clone();
+    FieldMatrixArray clone = new FieldMatrixArray(sectorsNumber, units);
+    for (int i = 0; i < clone.getMatrix().length; i++) {
+      for (int j = 0; j < clone.getMatrix()[i].length; j++) {
+        clone.matrix[i][j] = this.matrix[i][j];
+      }
+    }
     return clone;
   }
 }
