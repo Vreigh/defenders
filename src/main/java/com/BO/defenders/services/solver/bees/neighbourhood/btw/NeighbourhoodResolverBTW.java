@@ -16,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.BO.defenders.util.Constants.detailedSolveLogs;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -122,7 +124,8 @@ public class NeighbourhoodResolverBTW implements NeighbourhoodResolver {
         }
       }
     }
-//    System.out.println("Sector: "+sector + " :" + result);
+    if(detailedSolveLogs)
+      System.out.println("Sector: "+sector + " :" + result);
     return new Result(result, sector);
   }
 

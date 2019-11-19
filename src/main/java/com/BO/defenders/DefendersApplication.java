@@ -15,6 +15,7 @@ public class DefendersApplication implements CommandLineRunner {
 
   private final DefendersAppRunner defendersAppManager;
 
+
   public static void main(String[] args) {
     SpringApplication.run(DefendersApplication.class, args);
   }

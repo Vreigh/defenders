@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import static com.BO.defenders.util.Constants.detailedSolveLogs;
 
 
 @Getter
@@ -24,7 +25,8 @@ public class Solution implements Cloneable{
     //TODO: zaprezentować rozwiazanie lepiej, dobrze zaimplementowac funckję do wypisywania human-friendly FieldMatrix
     System.out.println("Present the solution");
     System.out.println(ANSI_RED + "Final cost: " + cost + ANSI_RESET);
-//    System.out.println(defendersMatrix.present());
+    if(detailedSolveLogs)
+      System.out.println(defendersMatrix.present());
   }
 
   @Override

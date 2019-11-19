@@ -23,6 +23,7 @@ import com.BO.defenders.util.MatrixUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import static com.BO.defenders.util.Constants.detailedSolveLogs;
 import static java.util.Objects.isNull;
 
 @Slf4j
@@ -45,7 +46,8 @@ public class ProblemSolverBees implements ProblemSolver<BeesParams> {
     calcCostForSolutionsIfNeeded(population, problem, costCalculator);
     for (int iteration = 0; iteration < params.getIterations(); iteration++) {
       population.sort(Comparator.comparing(Solution::getCost));
-//      log.info("Current best cost: {}", population.get(0).getCost());
+      if(detailedSolveLogs)
+        log.info("Current best cost: {}", population.get(0).getCost());
 
       List<Solution> newPopulation = new ArrayList<>();
       int populationIndex = 0;
