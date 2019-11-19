@@ -122,7 +122,7 @@ public class NeighbourhoodResolverBTW implements NeighbourhoodResolver {
         }
       }
     }
-    System.out.println("Sector: "+sector + " :" + result);
+//    System.out.println("Sector: "+sector + " :" + result);
     return new Result(result, sector);
   }
 

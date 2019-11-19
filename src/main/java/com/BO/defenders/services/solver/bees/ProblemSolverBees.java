@@ -45,7 +45,7 @@ public class ProblemSolverBees implements ProblemSolver<BeesParams> {
     calcCostForSolutionsIfNeeded(population, problem, costCalculator);
     for (int iteration = 0; iteration < params.getIterations(); iteration++) {
       population.sort(Comparator.comparing(Solution::getCost));
-      log.info("Current best cost: {}", population.get(0).getCost());
+//      log.info("Current best cost: {}", population.get(0).getCost());
 
       List<Solution> newPopulation = new ArrayList<>();
       int populationIndex = 0;
