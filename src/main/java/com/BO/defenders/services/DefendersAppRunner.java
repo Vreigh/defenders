@@ -101,6 +101,7 @@ public class DefendersAppRunner {
                        "                BEES   - bees algorithm,\n" +
                        "                FORCE  - best solution calculated by brute force");
     System.out.println("> Neighbourhood types: R2B - Random 2 units best choice\n" +
+                       "                       R3B - Random 3 units best choice\n" +
                        "                       BTW - Best to worst");
 
     System.out.println("END   - closes program");
